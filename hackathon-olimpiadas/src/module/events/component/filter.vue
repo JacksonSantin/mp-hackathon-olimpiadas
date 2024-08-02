@@ -4,7 +4,7 @@
       <v-card-text>
         <v-container fluid class="pa-0">
           <v-row>
-            <v-col cols="6">
+            <v-col cols="12" md="6">
               <v-autocomplete
                 label="País"
                 variant="underlined"
@@ -13,7 +13,7 @@
                 v-model="controller.tableFilter.value.country"
               ></v-autocomplete>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="12" md="6">
               <v-autocomplete
                 label="Esporte"
                 variant="underlined"
@@ -24,7 +24,7 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-col cols="6">
+            <v-col cols="12" md="6">
               <v-autocomplete
                 label="Local"
                 variant="underlined"
@@ -33,7 +33,7 @@
                 v-model="controller.tableFilter.value.venue"
               ></v-autocomplete>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="12" md="6">
               <v-text-field
                 label="Data"
                 type="date"

@@ -100,7 +100,7 @@
                     >
                   </div>
                 </div>
-                <div v-else-if="item.position <= 2">
+                <div v-else>
                   <div class="image-container">
                     <v-img
                       class="mr-3"

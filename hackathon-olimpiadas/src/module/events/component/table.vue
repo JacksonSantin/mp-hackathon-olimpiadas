@@ -11,7 +11,7 @@
       :mobile="controller.isMobile.value"
       @update:options="controller.getEvents"
     >
-      <template v-slot:top>
+      <template v-if="!controller.isMobile.value" v-slot:top>
         <v-toolbar density="compact" color="transparent" flat>
           <v-toolbar-title>
             <div class="d-flex flex-column">
@@ -72,7 +72,7 @@
           <v-img
             class="mr-3"
             aspect-ratio="16/9"
-            style="background-color: white;"
+            style="background-color: white"
             cover
             :width="item.discipline_pictogram ? 30 : 0"
             :src="item.discipline_pictogram"
