@@ -1,7 +1,7 @@
 <template>
   <v-card class="ma-2">
     <v-data-table-server
-      height="calc(100vh - 300px)"
+      height="calc(100vh - 345px)"
       fixed-header
       v-model:items-per-page="controller.itemsPerPage.value"
       :headers="controller.headers.value"
@@ -71,10 +71,10 @@
         <div class="d-inline-flex">
           <v-img
             class="mr-3"
-            width="30"
             aspect-ratio="16/9"
             style="background-color: white;"
             cover
+            :width="item.discipline_pictogram ? 30 : 0"
             :src="item.discipline_pictogram"
           ></v-img>
           {{ item.discipline_name }}

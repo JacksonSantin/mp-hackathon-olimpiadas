@@ -2,7 +2,9 @@ import { computed, onMounted, ref } from "vue";
 import { columns } from "../const/columns";
 import { useDisplay } from "vuetify/lib/framework.mjs";
 import { filter } from "../const/filter";
+import { competitors } from "../const/competitors";
 import Events from "../domain/model/events";
+import Toastify from "toastify-js";
 
 const eventsController =
   (
@@ -16,6 +18,7 @@ const eventsController =
     const itemsPerPage = ref(10);
     const headers = ref(columns);
     const tableFilter = ref(structuredClone(filter));
+    const participant = ref(competitors);
     const modelEvents = ref(new Events({}));
     const tableItems = ref([]);
     const countries = ref([]);
@@ -55,7 +58,16 @@ const eventsController =
         tableItems.value = items;
         totalItens.value = count;
       } catch (error) {
-        console.log(error);
+        Toastify({
+          text: error,
+          duration: 2000,
+          gravity: "top",
+          position: "right",
+          style: {
+            background: "red",
+            borderRadius: "50px",
+          },
+        }).showToast();
       } finally {
         loading.value = false;
       }
@@ -77,7 +89,16 @@ const eventsController =
         modelEvents.value = { ...item };
         dialogForm.value = true;
       } catch (error) {
-        console.log(error);
+        Toastify({
+          text: error,
+          duration: 2000,
+          gravity: "top",
+          position: "right",
+          style: {
+            background: "red",
+            borderRadius: "50px",
+          },
+        }).showToast();
       } finally {
         loading.value = false;
       }
@@ -95,10 +116,29 @@ const eventsController =
 
         close();
       } catch (error) {
-        console.log(error);
+        Toastify({
+          text: error,
+          duration: 2000,
+          gravity: "top",
+          position: "right",
+          style: {
+            background: "red",
+            borderRadius: "50px",
+          },
+        }).showToast();
       } finally {
         loading.value = false;
       }
+    };
+
+    const getCompetitorColor = (position) => {
+      const competitor = participant.value.find((c) => c.id === position);
+      return competitor ? competitor.color : "primary";
+    };
+
+    const getCompetitorIcon = (position) => {
+      const competitor = participant.value.find((c) => c.id === position);
+      return competitor ? competitor.icon : "";
     };
 
     const closeDialogForm = () => {
@@ -125,6 +165,7 @@ const eventsController =
       itemsPerPage,
       headers,
       tableFilter,
+      participant,
       modelEvents,
       tableItems,
       countries,
@@ -140,6 +181,8 @@ const eventsController =
       cleanFilters,
       details,
       filterRecords,
+      getCompetitorColor,
+      getCompetitorIcon,
       closeDialogForm,
       close,
       clear,

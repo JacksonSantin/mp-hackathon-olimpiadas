@@ -18,37 +18,39 @@
 
       <v-card-text class="pa-5">
         <v-container fluid class="pa-0">
-          <v-row align="center" justify="center" dense>
-            <v-col cols="12" sm="6">
+          <div class="d-flex flex-column flex-md-row justify-between">
+            <div class="d-flex flex-column w-50">
               <h2 class="font-weight-bold mb-2">
                 {{ controller.modelEvents.value.detailed_event_name }}
               </h2>
               <p class="text-h6 text-grey-darken-3 mb-2">
-                <b>Data:</b> {{ controller.modelEvents.value.day }}
+                <strong>Data:</strong>
+                {{
+                  dayjs(controller.modelEvents.value.day).format("DD/MM/YYYY")
+                }}
               </p>
               <p class="text-h6 text-grey-darken-3 mb-2">
-                <b>Horário:</b>
-                <span
-                  >{{ controller.modelEvents.value.start_date }} -
-                  {{ controller.modelEvents.value.end_date }}</span
-                >
+                <strong>Horário: </strong>
+                <span>
+                  {{
+                    formatBrazilTime(controller.modelEvents.value.start_date)
+                  }}
+                </span>
               </p>
               <p class="text-h6 text-grey-darken-3 mb-2">
-                <b>Disciplina:</b>
+                <strong>Disciplina:</strong>
                 {{ controller.modelEvents.value.discipline_name }}
               </p>
-              <p class="text-h6 text-grey-darken-3 mb-2">
-                <b>Disciplina:</b>
-                {{ controller.modelEvents.value.discipline_name }}
+              <p v-if="controller.modelEvents.value.venue_name" class="text-h6 text-grey-darken-3 mb-2">
+                <strong>Local:</strong>
+                {{ controller.modelEvents.value.venue_name }}
               </p>
               <p class="text-h6 text-grey-darken-3 mb-2">
-                <b>Local:</b> {{ controller.modelEvents.value.venue_name }}
+                <strong>Status:</strong>
+                {{ controller.modelEvents.value.status }}
               </p>
               <p class="text-h6 text-grey-darken-3 mb-2">
-                <b>Status:</b> {{ controller.modelEvents.value.status }}
-              </p>
-              <p class="text-h6 text-grey-darken-3 mb-2">
-                <b>Evento com Medalha:</b>
+                <strong>Evento com Medalha:</strong>
                 {{
                   controller.modelEvents.value.is_medal_event === 0
                     ? "Não"
@@ -56,40 +58,71 @@
                 }}
               </p>
               <p class="text-h6 text-grey-darken-3 mb-2">
-                <b>Evento ao Vivo:</b>
+                <strong>Evento ao Vivo:</strong>
                 {{ controller.modelEvents.value.is_live === 0 ? "Não" : "Sim" }}
               </p>
-            </v-col>
-            <v-col cols="12" sm="6">
-              <div class="d-flex flex-column align-start">
-                <h3 class="font-weight-bold text-grey-darken-5 mt-4">
-                  Competidores:
-                </h3>
-                <div
-                  class="d-flex align-center my-2"
-                  v-for="(item, index) in controller.modelEvents.value
-                    .competitors"
-                  :key="index"
-                >
+            </div>
+            <div class="d-flex flex-column align-start" v-if="controller.modelEvents.value.competitors.length">
+              <h3 class="font-weight-bold text-grey-darken-5 mt-4">
+                Competidores:
+              </h3>
+              <div
+                class="d-flex align-center my-2"
+                v-for="(item, index) in controller.modelEvents.value
+                  .competitors"
+                :key="index"
+              >
+                <div v-if="item.result_winnerLoserTie">
                   <div class="image-container">
                     <v-img
                       class="mr-3"
-                      width="30"
+                      width="40"
                       aspect-ratio="16/9"
                       style="border: 1px solid #e2e2e2"
                       cover
+                      rounded
                       :src="item.country_flag_url"
                     ></v-img>
-                    <p class="text-grey-darken-3">
-                      {{ item.competitor_name }} ({{
-                        item.result_winnerLoserTie
-                      }})
-                    </p>
+                    <v-chip
+                      :prepend-icon="
+                        item.result_winnerLoserTie === 'W'
+                          ? 'mdi-crown-outline'
+                          : ''
+                      "
+                      :color="
+                        item.result_winnerLoserTie === 'W'
+                          ? '#d3a01f'
+                          : 'primary'
+                      "
+                      variant="outlined"
+                      size="small"
+                      >{{ item.competitor_name }} - {{(item.result_mark)}}</v-chip
+                    >
+                  </div>
+                </div>
+                <div v-else-if="item.position <= 2">
+                  <div class="image-container">
+                    <v-img
+                      class="mr-3"
+                      width="40"
+                      aspect-ratio="16/9"
+                      style="border: 1px solid #e2e2e2"
+                      cover
+                      rounded
+                      :src="item.country_flag_url"
+                    ></v-img>
+                    <v-chip
+                      :prepend-icon="controller.getCompetitorIcon(item.position)"
+                      :color="controller.getCompetitorColor(item.position)"
+                      variant="outlined"
+                      size="small"
+                      >{{ item.competitor_name }} - {{(item.result_mark)}}</v-chip
+                    >
                   </div>
                 </div>
               </div>
-            </v-col>
-          </v-row>
+            </div>
+          </div>
         </v-container>
       </v-card-text>
 
@@ -119,10 +152,19 @@
 
 <script setup>
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const { controller } = defineProps({
   controller: { type: Object, required: true },
 });
+
+const formatBrazilTime = (date) => {
+  return dayjs(date).tz("America/Sao_Paulo").format("HH:mm");
+};
 </script>
 
 <style scoped>

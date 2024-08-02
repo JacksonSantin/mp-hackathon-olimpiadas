@@ -2,6 +2,7 @@ import { computed, onMounted, ref } from "vue";
 import { columns } from "../const/columns";
 import { useDisplay } from "vuetify/lib/framework.mjs";
 import { useTheme } from "vuetify";
+import Toastify from "toastify-js";
 
 const disciplinesController = (getDisciplinesUseCase) => () => {
   const display = useDisplay();
@@ -28,7 +29,16 @@ const disciplinesController = (getDisciplinesUseCase) => () => {
       tableItems.value = items;
       totalItens.value = count;
     } catch (error) {
-      console.log(error);
+      Toastify({
+        text: error,
+        duration: 2000,
+        gravity: "top",
+        position: "right",
+        style: {
+          background: "red",
+          borderRadius: "50px",
+        },
+      }).showToast();
     } finally {
       loading.value = false;
     }

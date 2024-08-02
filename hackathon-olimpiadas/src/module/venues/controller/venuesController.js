@@ -1,6 +1,7 @@
 import { computed, onMounted, ref } from "vue";
 import { columns } from "../const/columns";
 import { useDisplay } from "vuetify/lib/framework.mjs";
+import Toastify from "toastify-js";
 
 const venuesController = (getVenuesUseCase) => () => {
   const display = useDisplay();
@@ -25,7 +26,16 @@ const venuesController = (getVenuesUseCase) => () => {
       tableItems.value = items;
       totalItens.value = count;
     } catch (error) {
-      console.log(error);
+      Toastify({
+        text: error,
+        duration: 2000,
+        gravity: "top",
+        position: "right",
+        style: {
+          background: "red",
+          borderRadius: "50px",
+        },
+      }).showToast();
     } finally {
       loading.value = false;
     }
