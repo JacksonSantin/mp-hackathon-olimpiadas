@@ -9,6 +9,8 @@
                 label="País"
                 variant="underlined"
                 density="compact"
+                clearable
+                :loading="controller.loadingCountries.value"
                 :items="controller.countries.value"
                 v-model="controller.tableFilter.value.country"
               ></v-autocomplete>
@@ -18,6 +20,7 @@
                 label="Esporte"
                 variant="underlined"
                 density="compact"
+                clearable
                 :items="controller.disciplines.value"
                 v-model="controller.tableFilter.value.discipline"
               ></v-autocomplete>
@@ -29,6 +32,7 @@
                 label="Local"
                 variant="underlined"
                 density="compact"
+                clearable
                 :items="controller.venues.value"
                 v-model="controller.tableFilter.value.venue"
               ></v-autocomplete>
