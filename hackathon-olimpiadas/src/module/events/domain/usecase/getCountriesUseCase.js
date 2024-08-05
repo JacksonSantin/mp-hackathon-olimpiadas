@@ -1,7 +1,6 @@
 const getCountriesUseCase = (repository) => async () => {
   try {
-    const items = await repository();
-    return ['Nenhuma', ...items]
+    return await repository();
   } catch (error) {
     throw error;
   }

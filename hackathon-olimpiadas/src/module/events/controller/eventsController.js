@@ -16,6 +16,8 @@ const eventsController =
   () => {
     const display = useDisplay();
     const itemsPerPage = ref(10);
+    const totalItens = ref(0);
+    const totalItensCountry = ref(0);
     const headers = ref(columns);
     const tableFilter = ref(structuredClone(filter));
     const participant = ref(competitors);
@@ -24,9 +26,9 @@ const eventsController =
     const countries = ref([]);
     const disciplines = ref([]);
     const venues = ref([]);
-    const totalItens = ref(0);
     const formFilter = ref(null);
     const loading = ref(false);
+    const loadingCountries = ref(false);
     const dialogForm = ref(false);
     const dialogFilter = ref(false);
     const isMobile = computed(() => {
@@ -34,15 +36,14 @@ const eventsController =
     });
 
     onMounted(async () => {
-      const [itemsCountry, itemsDiscipline, itemsVenue] = await Promise.all([
-        getCountriesUseCase(),
+      const [itemsDiscipline, itemsVenue] = await Promise.all([
         getDisciplinesUseCase(),
         getVenuesUseCase(),
       ]);
 
-      countries.value = itemsCountry;
       disciplines.value = itemsDiscipline;
       venues.value = itemsVenue;
+      await getCountry();
     });
 
     const getEvents = async (options) => {
@@ -131,6 +132,29 @@ const eventsController =
       }
     };
 
+    const getCountry = async () => {
+      try {
+        loadingCountries.value = true;
+
+        const { items, count } = await getCountriesUseCase();
+        countries.value = items;
+        totalItensCountry.value = count;
+      } catch (error) {
+        Toastify({
+          text: error,
+          duration: 2000,
+          gravity: "top",
+          position: "right",
+          style: {
+            background: "red",
+            borderRadius: "50px",
+          },
+        }).showToast();
+      } finally {
+        loadingCountries.value = false;
+      }
+    };
+
     const getChipColor = (status) => {
       if(status === "Finished") return "green"
       if(status === "Scheduled") return "warning"
@@ -179,6 +203,8 @@ const eventsController =
 
     return {
       itemsPerPage,
+      totalItens,
+      totalItensCountry,
       headers,
       tableFilter,
       participant,
@@ -187,9 +213,9 @@ const eventsController =
       countries,
       disciplines,
       venues,
-      totalItens,
       formFilter,
       loading,
+      loadingCountries,
       dialogForm,
       dialogFilter,
       isMobile,
