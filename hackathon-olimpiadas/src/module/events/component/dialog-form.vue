@@ -23,13 +23,13 @@
               <h2 class="font-weight-bold mb-2">
                 {{ controller.modelEvents.value.detailed_event_name }}
               </h2>
-              <p class="text-h6 text-grey-darken-3 mb-2">
+              <p class="text-h6 mb-2">
                 <strong>Data:</strong>
                 {{
                   dayjs(controller.modelEvents.value.day).format("DD/MM/YYYY")
                 }}
               </p>
-              <p class="text-h6 text-grey-darken-3 mb-2">
+              <p class="text-h6 mb-2">
                 <strong>Horário: </strong>
                 <span>
                   {{
@@ -37,20 +37,20 @@
                   }}
                 </span>
               </p>
-              <p class="text-h6 text-grey-darken-3 mb-2">
+              <p class="text-h6 mb-2">
                 <strong>Disciplina:</strong>
                 {{ controller.modelEvents.value.discipline_name }}
               </p>
               <p
                 v-if="controller.modelEvents.value.venue_name"
-                class="text-h6 text-grey-darken-3 mb-2"
+                class="text-h6 mb-2"
               >
                 <strong>Local:</strong>
                 {{ controller.modelEvents.value.venue_name }}
               </p>
               <p
                 v-if="controller.modelEvents.value.status"
-                class="text-h6 text-grey-darken-3 mb-2"
+                class="text-h6 mb-2"
               >
                 <strong>Status:</strong>
                 <v-chip
@@ -67,7 +67,7 @@
                   {{ controller.modelEvents.value.status }}
                 </v-chip>
               </p>
-              <p class="text-h6 text-grey-darken-3 mb-2">
+              <p class="text-h6 mb-2">
                 <strong>Evento com Medalha:</strong>
                 {{
                   controller.modelEvents.value.is_medal_event === 0
@@ -75,7 +75,7 @@
                     : "Sim"
                 }}
               </p>
-              <p class="text-h6 text-grey-darken-3 mb-2">
+              <p class="text-h6 mb-2">
                 <strong>Evento ao Vivo:</strong>
                 {{ controller.modelEvents.value.is_live === 0 ? "Não" : "Sim" }}
               </p>
