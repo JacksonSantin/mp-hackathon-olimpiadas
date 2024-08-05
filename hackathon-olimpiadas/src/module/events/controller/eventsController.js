@@ -131,6 +131,22 @@ const eventsController =
       }
     };
 
+    const getChipColor = (status) => {
+      if(status === "Finished") return "green"
+      if(status === "Scheduled") return "warning"
+      if(status === "Running") return "primary"
+      if(status === "Cancelled") return "red"
+      else return "gray"
+    }
+
+    const getChipIcon = (status) => {
+      if(status === "Finished") return "mdi-check-circle-outline"
+      if(status === "Scheduled") return "mdi-calendar-clock"
+      if(status === "Running") return "mdi-run"
+      if(status === "Cancelled") return "mdi-block-helper"
+      else return "mdi-close"
+    }
+
     const getCompetitorColor = (position) => {
       const competitor = participant.value.find((c) => c.id === position);
       return competitor ? competitor.color : "primary";
@@ -181,6 +197,8 @@ const eventsController =
       cleanFilters,
       details,
       filterRecords,
+      getChipColor,
+      getChipIcon,
       getCompetitorColor,
       getCompetitorIcon,
       closeDialogForm,

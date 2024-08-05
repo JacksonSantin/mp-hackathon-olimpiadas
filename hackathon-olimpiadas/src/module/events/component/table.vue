@@ -67,6 +67,18 @@
       <template v-slot:[`item.day`]="{ item }">
         {{ dayjs(item.day).format("DD/MM/YYYY") }}
       </template>
+      <template v-slot:[`item.status`]="{ item }">
+        <v-chip
+        v-if="item.status"
+          size="small"
+          variant="outlined"
+          class="ma-2"
+          :prepend-icon="controller.getChipIcon(item.status)"
+          :color="controller.getChipColor(item.status)"
+        >
+          {{ item.status }}
+        </v-chip>
+      </template>
       <template v-slot:[`item.discipline_name`]="{ item }">
         <div class="d-inline-flex">
           <v-img

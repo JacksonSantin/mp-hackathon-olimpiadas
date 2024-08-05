@@ -41,13 +41,31 @@
                 <strong>Disciplina:</strong>
                 {{ controller.modelEvents.value.discipline_name }}
               </p>
-              <p v-if="controller.modelEvents.value.venue_name" class="text-h6 text-grey-darken-3 mb-2">
+              <p
+                v-if="controller.modelEvents.value.venue_name"
+                class="text-h6 text-grey-darken-3 mb-2"
+              >
                 <strong>Local:</strong>
                 {{ controller.modelEvents.value.venue_name }}
               </p>
-              <p class="text-h6 text-grey-darken-3 mb-2">
+              <p
+                v-if="controller.modelEvents.value.status"
+                class="text-h6 text-grey-darken-3 mb-2"
+              >
                 <strong>Status:</strong>
-                {{ controller.modelEvents.value.status }}
+                <v-chip
+                  size="small"
+                  variant="outlined"
+                  class="ma-2"
+                  :prepend-icon="
+                    controller.getChipIcon(controller.modelEvents.value.status)
+                  "
+                  :color="
+                    controller.getChipColor(controller.modelEvents.value.status)
+                  "
+                >
+                  {{ controller.modelEvents.value.status }}
+                </v-chip>
               </p>
               <p class="text-h6 text-grey-darken-3 mb-2">
                 <strong>Evento com Medalha:</strong>
@@ -62,7 +80,10 @@
                 {{ controller.modelEvents.value.is_live === 0 ? "Não" : "Sim" }}
               </p>
             </div>
-            <div class="d-flex flex-column align-start" v-if="controller.modelEvents.value.competitors.length">
+            <div
+              class="d-flex flex-column align-start"
+              v-if="controller.modelEvents.value.competitors.length"
+            >
               <h3 class="font-weight-bold text-grey-darken-5 mt-4">
                 Competidores:
               </h3>
@@ -96,7 +117,8 @@
                       "
                       variant="outlined"
                       size="small"
-                      >{{ item.competitor_name }} - {{(item.result_mark)}}</v-chip
+                      >{{ item.competitor_name }} -
+                      {{ item.result_mark }}</v-chip
                     >
                   </div>
                 </div>
@@ -112,11 +134,14 @@
                       :src="item.country_flag_url"
                     ></v-img>
                     <v-chip
-                      :prepend-icon="controller.getCompetitorIcon(item.position)"
+                      :prepend-icon="
+                        controller.getCompetitorIcon(item.position)
+                      "
                       :color="controller.getCompetitorColor(item.position)"
                       variant="outlined"
                       size="small"
-                      >{{ item.competitor_name }} - {{(item.result_mark)}}</v-chip
+                      >{{ item.competitor_name }} -
+                      {{ item.result_mark }}</v-chip
                     >
                   </div>
                 </div>
