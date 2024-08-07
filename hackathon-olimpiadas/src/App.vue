@@ -129,9 +129,6 @@ watch(
 </script>
 
 <style>
-:deep(.v-data-table-headers--mobile) {
-    display: none;
-}
 @keyframes pulse {
   0% {
     transform: scale(1);
