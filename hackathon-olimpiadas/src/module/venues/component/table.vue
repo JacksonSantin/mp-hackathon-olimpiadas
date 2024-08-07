@@ -42,4 +42,7 @@ a {
 :deep(.v-data-table-footer__items-per-page) {
   display: none;
 }
+:deep(.v-data-table-headers--mobile) {
+    display: none;
+}
 </style>

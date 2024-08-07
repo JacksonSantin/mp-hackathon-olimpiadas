@@ -34,3 +34,9 @@ const { controller } = defineProps({
   },
 });
 </script>
+
+<style scoped>
+:deep(.v-data-table-headers--mobile) {
+    display: none;
+}
+</style>
